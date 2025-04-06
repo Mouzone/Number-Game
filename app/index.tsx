@@ -31,7 +31,9 @@ export default function Index() {
             }}
         >
             <GameEndModal isVisible={isGameOver} startOver={startOver} />
-            <Text style={{ fontSize: 70 }}> {number} </Text>
+            <Text style={{ fontSize: 70, color: number % 2 ? "blue" : "red" }}>
+                {number}
+            </Text>
             <View
                 style={{
                     flexDirection: "row",
