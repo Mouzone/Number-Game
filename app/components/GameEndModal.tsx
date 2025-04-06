@@ -25,6 +25,7 @@ export default function GameEndModal({
                 }}
             >
                 <Text> Game Over! </Text>
+                {/* todo: make it stop rendering and shifting all over the place */}
                 <Text>
                     {formatTime(finalStats.milliseconds)} {finalStats.number}
                 </Text>
