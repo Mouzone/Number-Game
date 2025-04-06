@@ -25,7 +25,9 @@ export default function Index() {
                 alignItems: "center",
             }}
         >
-            {isGameOver && <GameEndModal />}
+            {isGameOver && (
+                <GameEndModal startOver={() => setIsGameOver(false)} />
+            )}
             <Text> {number} </Text>
             <View
                 style={{
