@@ -6,23 +6,25 @@ import formatTime from "./utility/formatTime";
 export default function Index() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
-    const [seconds, setSeconds] = useState(0);
-    const final = useRef({ number: 0, seconds: 0 });
+    const [milliseconds, setMilliseconds] = useState(0);
+    const final = useRef({ number: 0, milliseconds: 0 });
     useEffect(() => {
+        const startTime = Date.now();
         const interval = setInterval(() => {
-            setSeconds(seconds + 1);
-        }, 1000);
+            const elapsedMs = Date.now() - startTime;
+            setMilliseconds(elapsedMs);
+        }, 10);
 
         return () => clearInterval(interval);
-    });
+    }, [isGameOver]);
 
     const onPress = (button: "left" | "right") => {
         if (
             (number % 2 === 0 && button === "left") ||
             (number % 2 === 1 && button === "right")
         ) {
-            final.current = { number, seconds };
-            setSeconds(0);
+            final.current = { number, milliseconds };
+            setMilliseconds(0);
             setNumber(0);
             setIsGameOver(true);
         } else {
@@ -48,7 +50,7 @@ export default function Index() {
                 finalStats={final.current}
                 startOver={startOver}
             />
-            <Text style={{ fontSize: 24 }}>{formatTime(seconds)}</Text>
+            <Text style={{ fontSize: 24 }}>{formatTime(milliseconds)}</Text>
             <Text style={{ fontSize: 70, color: number % 2 ? "blue" : "red" }}>
                 {number}
             </Text>

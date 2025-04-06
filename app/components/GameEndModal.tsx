@@ -2,7 +2,7 @@ import { Button, Modal, Text, View } from "react-native";
 import formatTime from "../utility/formatTime";
 
 type GameEndModalProps = {
-    finalStats: { number: number; seconds: number };
+    finalStats: { number: number; milliseconds: number };
     isVisible: boolean;
     startOver: () => void;
 };
@@ -26,7 +26,7 @@ export default function GameEndModal({
             >
                 <Text> Game Over! </Text>
                 <Text>
-                    {formatTime(finalStats.seconds)} {finalStats.number}
+                    {formatTime(finalStats.milliseconds)} {finalStats.number}
                 </Text>
                 <Button onPress={startOver} title="Retry?" />
             </View>
