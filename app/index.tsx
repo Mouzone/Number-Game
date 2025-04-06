@@ -17,23 +17,27 @@ export default function Index() {
         }
     };
 
+    const startOver = () => {
+        setNumber(0);
+        setIsGameOver(false);
+    };
     return (
         <View
             style={{
                 flex: 1,
                 justifyContent: "center",
+                marginVertical: "auto",
                 alignItems: "center",
             }}
         >
-            {isGameOver && (
-                <GameEndModal startOver={() => setIsGameOver(false)} />
-            )}
-            <Text> {number} </Text>
+            <GameEndModal isVisible={isGameOver} startOver={startOver} />
+            <Text style={{ fontSize: 70 }}> {number} </Text>
             <View
                 style={{
-                    flex: 1,
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    width: "100%",
+                    padding: 60,
                 }}
             >
                 <Button onPress={() => onPress("left")} title="Skip" />
