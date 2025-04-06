@@ -5,6 +5,18 @@ import GameEndModal from "./components/GameEndModal";
 export default function Index() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
+
+    const onPress = (button: "left" | "right") => {
+        if (
+            (number % 2 === 0 && button === "left") ||
+            (number % 2 === 1 && button === "right")
+        ) {
+            setIsGameOver(true);
+        } else {
+            setNumber(number + 1);
+        }
+    };
+
     return (
         <View
             style={{
@@ -22,26 +34,8 @@ export default function Index() {
                     justifyContent: "space-between",
                 }}
             >
-                <Button
-                    onPress={() => {
-                        if (number % 2 === 0) {
-                            setIsGameOver(true);
-                        } else {
-                            setNumber(number + 1);
-                        }
-                    }}
-                    title="Skip"
-                />
-                <Button
-                    onPress={() => {
-                        if (number % 2 === 1) {
-                            setIsGameOver(true);
-                        } else {
-                            setNumber(number + 1);
-                        }
-                    }}
-                    title="Take"
-                />
+                <Button onPress={() => onPress("left")} title="Skip" />
+                <Button onPress={() => onPress("right")} title="Take" />
             </View>
         </View>
     );
