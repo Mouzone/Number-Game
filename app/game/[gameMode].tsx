@@ -7,7 +7,7 @@ import { gameModes } from "../../utility/gameModes";
 import { GameMode } from "@/utility/types";
 
 // todo: add 3 seconds count down screen
-// refactor to read the {id: "..."} passed in for onPress function
+// add create account screen, login screen, to share scores with friends
 export default function Game() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
