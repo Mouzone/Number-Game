@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
 import GameEndModal from "./components/GameEndModal";
+import formatTime from "./utility/formatTime";
 
 export default function Index() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSeconds(seconds + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    });
 
     const onPress = (button: "left" | "right") => {
         if (
@@ -18,6 +28,7 @@ export default function Index() {
     };
 
     const startOver = () => {
+        setSeconds(0);
         setNumber(0);
         setIsGameOver(false);
     };
@@ -31,6 +42,7 @@ export default function Index() {
             }}
         >
             <GameEndModal isVisible={isGameOver} startOver={startOver} />
+            <Text style={{ fontSize: 24 }}>{formatTime(seconds)}</Text>
             <Text style={{ fontSize: 70, color: number % 2 ? "blue" : "red" }}>
                 {number}
             </Text>
