@@ -1,5 +1,5 @@
 import { Button, Modal, Text, View } from "react-native";
-import formatTime from "../utility/formatTime";
+import formatTime from "../../utility/formatTime";
 
 type GameEndModalProps = {
     finalStats: { number: number; milliseconds: number };

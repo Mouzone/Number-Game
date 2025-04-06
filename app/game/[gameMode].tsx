@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Text, View } from "react-native";
 import GameEndModal from "../components/GameEndModal";
-import formatTime from "../utility/formatTime";
+import formatTime from "../../utility/formatTime";
+import { useLocalSearchParams } from "expo-router";
+import { gameModes } from "../../utility/gameModes";
+import { GameMode } from "@/utility/types";
 
+// todo: add 3 seconds count down screen
+// refactor to read the {id: "..."} passed in for onPress function
 export default function Game() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
     const [milliseconds, setMilliseconds] = useState(0);
+    const { gameMode } = useLocalSearchParams<{ gameMode: GameMode }>();
     const final = useRef({ number: 0, milliseconds: 0 });
+    const isType = gameModes[gameMode];
+
     useEffect(() => {
         const startTime = Date.now();
         const interval = setInterval(() => {
@@ -20,8 +28,8 @@ export default function Game() {
 
     const onPress = (button: "left" | "right") => {
         if (
-            (number % 2 === 0 && button === "left") ||
-            (number % 2 === 1 && button === "right")
+            (isType(number) && button === "left") ||
+            (!isType(number) && button === "right")
         ) {
             final.current = { number, milliseconds };
             setMilliseconds(0);
@@ -51,7 +59,9 @@ export default function Game() {
                 startOver={startOver}
             />
             <Text style={{ fontSize: 24 }}>{formatTime(milliseconds)}</Text>
-            <Text style={{ fontSize: 70, color: number % 2 ? "blue" : "red" }}>
+            <Text
+                style={{ fontSize: 70, color: isType(number) ? "blue" : "red" }}
+            >
                 {number}
             </Text>
             <View
