@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Text, View } from "react-native";
 import GameEndModal from "./components/GameEndModal";
 import formatTime from "./utility/formatTime";
@@ -7,7 +7,7 @@ export default function Index() {
     const [number, setNumber] = useState(0);
     const [isGameOver, setIsGameOver] = useState(false);
     const [seconds, setSeconds] = useState(0);
-
+    const final = useRef({ number: 0, seconds: 0 });
     useEffect(() => {
         const interval = setInterval(() => {
             setSeconds(seconds + 1);
@@ -21,6 +21,9 @@ export default function Index() {
             (number % 2 === 0 && button === "left") ||
             (number % 2 === 1 && button === "right")
         ) {
+            final.current = { number, seconds };
+            setSeconds(0);
+            setNumber(0);
             setIsGameOver(true);
         } else {
             setNumber(number + 1);
@@ -28,10 +31,9 @@ export default function Index() {
     };
 
     const startOver = () => {
-        setSeconds(0);
-        setNumber(0);
         setIsGameOver(false);
     };
+
     return (
         <View
             style={{
@@ -41,7 +43,11 @@ export default function Index() {
                 alignItems: "center",
             }}
         >
-            <GameEndModal isVisible={isGameOver} startOver={startOver} />
+            <GameEndModal
+                isVisible={isGameOver}
+                finalStats={final.current}
+                startOver={startOver}
+            />
             <Text style={{ fontSize: 24 }}>{formatTime(seconds)}</Text>
             <Text style={{ fontSize: 70, color: number % 2 ? "blue" : "red" }}>
                 {number}
